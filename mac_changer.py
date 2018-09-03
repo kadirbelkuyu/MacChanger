@@ -20,7 +20,7 @@ def mac_change(interface,new_mac):
     subprocess.call(["ifconfig", interface, "up"])
 
 def get_mac_adress(interface):
-    ifconfig_result = subprocess.check_output(["ifconfig", interface])
+    ifconfig_result = subprocess.check_output(["ifconfig", interface]).decode('utf-8')
     mac_search_result = re.search(r"\w\w\:\w\w\:\w\w\:\w\w\:\w\w\:\w\w", ifconfig_result)
 
     if mac_search_result:
@@ -40,4 +40,3 @@ if current_mac_adress == options.new_mac:
     print("[+] MAC adress was successfully changed to " + current_mac_adress)
 else:
     print("[-] MAC adress did not get changed.")
-
