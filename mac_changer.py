@@ -11,7 +11,8 @@ def get_arguments():
     if not options.interface:
         parser.error("[-] Please specify an interface, use --help for more info")
     if not options.new_mac:
-        options.new_mac = (':'.join(['%02X' % random.randrange(0,255) for i in range(0,6)]))
+        # 00:26:03 -> Intel Wifi card it starts
+        options.new_mac = "00:26:03:"+(':'.join(['%02X' % random.randrange(0,255) for i in range(0,3)]))
         print("[+] Random MAC Address created " + options.new_mac)
     return options
 
@@ -38,7 +39,7 @@ print("Current MAC adress = " + str(current_mac_adress))
 mac_change(options.interface,options.new_mac)
 current_mac_adress = get_mac_adress(options.interface)
 
-if current_mac_adress == options.new_mac:
+if  current_mac_adress.lower() == options.new_mac.lower():
     print("[+] MAC adress was successfully changed to " + current_mac_adress)
 else:
     print("[-] MAC adress did not get changed.")
