@@ -1,16 +1,18 @@
 import subprocess
 import optparse
+import random
 import re
 
 def get_arguments():
     parser = optparse.OptionParser()
     parser.add_option("-i", "--interface", dest="interface", help="Interface to change it s MAC adress")
-    parser.add_option("-m", "--mac", dest="new_mac", help="New MAC adress")
+    parser.add_option("-m", "--mac", dest="new_mac", help="New MAC adress. Generates a random Mac adress if it is empty")
     (options, arguments) =  parser.parse_args()
     if not options.interface:
         parser.error("[-] Please specify an interface, use --help for more info")
-    elif not options.new_mac:
-        parser.error("[-] Please specify an mac, use --help for more info")
+    if not options.new_mac:
+        options.new_mac = (':'.join(['%02X' % random.randrange(0,255) for i in range(0,6)]))
+        print("[+] Random MAC Address created " + options.new_mac)
     return options
 
 def mac_change(interface,new_mac):
